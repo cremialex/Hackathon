@@ -2,7 +2,9 @@ import pandas as pd
 
 def get_company_list():
     df = pd.read_csv('data/data_new_list_wikipedia.csv', header=[0, 1], index_col=0, dayfirst=True, parse_dates=True)
-    return df.columns.get_level_values(0).to_list()
+    companies = df.columns.get_level_values(0).to_list()
+
+    return list(dict.fromkeys(companies))
 
 
 def get_prices(list_of_tickers):
