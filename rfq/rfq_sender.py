@@ -1,21 +1,18 @@
 #!/usr/bin/python
 
 import random
-import sys
 from datetime import datetime
 from datetime import timedelta
 from random import randrange
 
 import rfq.RFQ as RFQ
 
-print(sys.version)
-
 
 def random_date(start, end):
     return start + timedelta(seconds=random.randint(0, int((end - start).total_senconds())))
 
 
-def get_new_RFQ():
+def get_new_rfq():
     index_sp500 = random.randint(0, 499)
     quantity = random.randint(-10000, 10000)
     # S&P500 composition index (quick &dirty)
@@ -69,17 +66,16 @@ def rdf_generator(time):
     random_hours = randrange(72)  # random within 3 days
     rfq_time = start_date + timedelta(hours=random_hours)
     print(rfq_time)
-    sym, qty = get_new_RFQ()
+    sym, qty = get_new_rfq()
     print(sym)
     return RFQ.RFQ(rfq_time, sym, qty)
 
-
-print("example that print the RFQ attributes (random sym, date and qty)")
-
-testRFQ = rdf_generator("01/01/2018")
-testRFQ2 = rdf_generator("01/01/2018")
-testRFQ3 = rdf_generator("01/01/2018")
-
-print("RFQ 1: sym", testRFQ.sym, "qty: ", testRFQ.qty, ", date RFQ random range with in range: ", testRFQ.time, " ")
-print("RFQ 2: sym", testRFQ2.sym, "qty: ", testRFQ2.qty, ", date RFQ random range with in range: ", testRFQ2.time, " ")
-print("RFQ 3: sym", testRFQ3.sym, "qty: ", testRFQ3.qty, ", date RFQ random range with in range: ", testRFQ3.time, " ")
+# print("example that print the RFQ attributes (random sym, date and qty)")
+#
+# testRFQ = rdf_generator("01/01/2018")
+# testRFQ2 = rdf_generator("01/01/2018")
+# testRFQ3 = rdf_generator("01/01/2018")
+#
+# print("RFQ 1: sym", testRFQ.sym, "qty: ", testRFQ.qty, ", date RFQ random range with in range: ", testRFQ.time, " ")
+# print("RFQ 2: sym", testRFQ2.sym, "qty: ", testRFQ2.qty, ", date RFQ random range with in range: ", testRFQ2.time, " ")
+# print("RFQ 3: sym", testRFQ3.sym, "qty: ", testRFQ3.qty, ", date RFQ random range with in range: ", testRFQ3.time, " ")
