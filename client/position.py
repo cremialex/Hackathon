@@ -1,5 +1,5 @@
 class Position:
-    def __init__(self, symbol, qty, fill_date=0):
+    def __init__(self, symbol, qty, fill_date):
         self.symbol = symbol
         self.qty = qty
         self.fill_date = fill_date

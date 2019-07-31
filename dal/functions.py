@@ -14,6 +14,10 @@ def get_prices(list_of_tickers):
     return df.iloc[:, ::2]
 
 
+def get_price_stock(symbol, date):
+    return get_prices([symbol]).loc[date.strftime('%Y%m%d')].values[0]
+
+
 def get_volumes(list_of_tickers):
     df = pd.read_csv('data/data_new_list_wikipedia.csv', header=[0, 1], index_col=0, dayfirst=True, parse_dates=True)
     df = df[list_of_tickers]

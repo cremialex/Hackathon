@@ -9,19 +9,36 @@ weekend = datetime.timedelta(days=2)
 
 
 class Calendar:
+    class __Calendar:
+        def __init__(self):
+            self.current_time = datetime.datetime(2018, 1, 2)
+
+        def add_time(self, time):
+            self.current_time = self.current_time + time
+
+        def get_current_time(self):
+            return self.current_time
+
+    instance = None
+    
     def __init__(self):
-        self.current_time = datetime.datetime(2018, 1, 1)
+        if not Calendar.instance:
+            Calendar.instance = Calendar.__Calendar()
 
-    def set_begin_of_day(self):
-        self.current_time = self.current_time + begin_of_day
+    @staticmethod
+    def set_begin_of_day():
+        Calendar.instance.add_time(begin_of_day)
 
-    def set_end_of_day(self):
-        self.current_time = self.current_time + end_of_day
+    @staticmethod
+    def set_end_of_day():
+        Calendar.instance.add_time(end_of_day)
 
-    def set_next_business_day(self):
-        self.current_time = self.current_time + next_day
-        if self.current_time.weekday() > 4:
-            self.current_time = self.current_time + weekend
+    @staticmethod
+    def set_next_business_day():
+        Calendar.instance.add_time(next_day)
+        if Calendar.instance.get_current_time().weekday() > 4:
+            Calendar.instance.add_time(next_day)
 
-    def get_current_time(self):
-        return self.current_time
+    @staticmethod
+    def get_current_time():
+        return Calendar.instance.get_current_time()
