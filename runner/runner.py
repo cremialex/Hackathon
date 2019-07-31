@@ -9,21 +9,25 @@ import runner.calendar as cal
 class Runner:
     def __init__(self):
         self.current_day = cal.Calendar()
+        self.clients = []
 
     def run(self):
         print(self.current_day.get_current_time())
 
+        # Creating fake clients
         client_baptiste = client.Client('Baptiste')
+        self.clients.append(client_baptiste)
 
         def answer_rfq_victor(incoming_rfq):
             if incoming_rfq[1] > 0:
                 return 3
             else:
                 return 2
-
         client_victor = client.Client('Victor', answer_rfq_victor)
+        self.clients.append(client_victor)
+        # ----------------------
 
-        allocator = alloc.Allocator([client_baptiste, client_victor])
+        allocator = alloc.Allocator(self.clients)
 
         rfq = generator.get_new_rfq()
         print(rfq)
@@ -36,9 +40,7 @@ class Runner:
 
         print('Winner of the auction is ' + allocator.allocate_rfq(rfq).name)
 
-        print(client_baptiste.name + ' portfolio is composed of: ')
         client_baptiste.display_portfolio()
-        print(client_baptiste.name + ' portfolio is composed of: ')
         client_victor.display_portfolio()
 
         self.current_day.set_end_of_day()

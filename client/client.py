@@ -11,5 +11,12 @@ class Client:
         self.portfolio.append(position)
 
     def display_portfolio(self):
+        print(self.name + 'Portfolio is composed of: ')
         for pos in self.portfolio:
             print('Symbol: ' + pos.symbol + ', quantity: ' + str(pos.qty))
+
+    def get_name(self):
+        return self.name
+
+    def get_portfolio(self):
+        return self.portfolio

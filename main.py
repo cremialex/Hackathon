@@ -1,7 +1,7 @@
 # main
 
-import runner.runner
+import runner.runner as run
 
 if __name__ == '__main__':
-    program = runner.runner.Runner()
+    program = run.Runner()
     program.run()
