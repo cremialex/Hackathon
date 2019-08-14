@@ -34,6 +34,9 @@ class Runner:
         self.run_year()
 
     def run_year(self):
+        if self.year != 2017:
+            print('Input year must be 2017')
+            return 0
         while self.current_day.get_current_time().year == self.year:
             while self.current_day.get_current_day_string() not in self.working_days:
                 self.current_day.to_next_day()
