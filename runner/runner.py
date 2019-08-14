@@ -19,7 +19,7 @@ class Runner:
         import client.client as client
         print(self.current_day.get_current_time())
 
-        # Creating fake clients manual at the moment
+        # Creating fake clients manual at the moment make sure the import the answers
         clientNew = client.Client('baptiste', baptiste.answer_rfq)
         self.clients.append(clientNew)
 
