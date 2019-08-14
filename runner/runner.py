@@ -4,12 +4,14 @@
 import rfq.rfq_sender as generator
 import runner.allocator as alloc
 import runner.calendar as cal
+import runner.unwinder as unwind
 
 
 class Runner:
     def __init__(self):
         self.current_day = cal.Calendar()
         self.clients = []
+        self.unwinder = unwind.Unwinder()
 
     def run(self):
         import client.client as client
@@ -53,7 +55,7 @@ class Runner:
         print(self.current_day.get_current_time())
 
         for client in self.clients:
-            print(client.name + ' portfolio is:')
+            self.unwinder.unwind_client(client)
             client.display_portfolio()
 
         self.current_day.set_next_business_day()
