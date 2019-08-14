@@ -33,6 +33,6 @@ class Client:
 
     def adjust_pnl(self, trade_pnl):
         self.pnl = self.pnl + trade_pnl
-        if not self.is_bankrupt and self.pnl < 1_000_000:
+        if not self.is_bankrupt and self.pnl < -1_000_000:
             self.is_bankrupt = True
             print(self.name + ' is now BANKRUPT')

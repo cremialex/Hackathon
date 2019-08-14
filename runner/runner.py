@@ -1,12 +1,14 @@
 # Base Runner Code
 
 
+import backtest.backtest as benchmark
 import dal.functions as dal
 import rfq.rfq_sender as generator
 import runner.allocator as alloc
 import runner.calendar as cal
 import runner.unwinder as unwind
-from answers import agata, alessandro, baptiste, victor
+from answers import agata, alessandro, victor
+
 
 class Runner:
     def __init__(self):
@@ -20,7 +22,7 @@ class Runner:
         print(self.current_day.get_current_time())
 
         # Creating fake clients manual at the moment make sure the import the answers
-        clientNew = client.Client('baptiste', baptiste.answer_rfq)
+        clientNew = client.Client('baptiste', benchmark.benchmark_safe_move)
         self.clients.append(clientNew)
 
         clientNew = client.Client('agata', agata.answer_rfq)

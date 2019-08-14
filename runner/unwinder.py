@@ -18,6 +18,6 @@ class Unwinder:
                 position_to_remove.append(item)
         for item in position_to_remove:
             client_ptf.remove_position(item)
-            client.adjust_pnl(item.get_qty() *
+            client.adjust_pnl(-item.get_qty() *
                               (dal.get_price_stock(item.get_symbol(), item.get_fill_date()) -
                                dal.get_price_stock(item.get_symbol(), self.calendar.get_current_time())))
