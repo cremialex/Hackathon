@@ -20,8 +20,6 @@ class Client:
         print(self.name + ' Portfolio is composed of: ')
         self.portfolio.compute_inventory()
         self.portfolio.show_inventory()
-        self.portfolio.show_raw_positions()
-        self.portfolio.show_historical_positions()
         print(self.name + ' PnL is: ' + str(self.pnl))
 
     def get_name(self):
