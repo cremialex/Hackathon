@@ -6,7 +6,7 @@ import rfq.rfq_sender as generator
 import runner.allocator as alloc
 import runner.calendar as cal
 import runner.unwinder as unwind
-
+from answers import agata, alessandro, baptiste, victor
 
 class Runner:
     def __init__(self):
@@ -19,20 +19,18 @@ class Runner:
         import client.client as client
         print(self.current_day.get_current_time())
 
-        def answer_rfq_victor(incoming_rfq):
-            if incoming_rfq[1] > 0:
-                return 3
-            else:
-                return 2
+        # Creating fake clients manual at the moment make sure the import the answers
+        clientNew = client.Client('baptiste', baptiste.answer_rfq)
+        self.clients.append(clientNew)
 
-        def answer_rfq_baptiste(incoming_rfq):
-            return 5
+        clientNew = client.Client('agata', agata.answer_rfq)
+        self.clients.append(clientNew)
 
-        # Creating fake clients
-        client_baptiste = client.Client('Baptiste', answer_rfq_baptiste)
-        self.clients.append(client_baptiste)
-        client_victor = client.Client('Victor', answer_rfq_victor)
-        self.clients.append(client_victor)
+        clientNew = client.Client('victor', victor.answer_rfq)
+        self.clients.append(clientNew)
+
+        clientNew = client.Client('alessandro', alessandro.answer_rfq)
+        self.clients.append(clientNew)
         # ----------------------
 
         self.run_year()
