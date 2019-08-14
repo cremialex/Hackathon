@@ -7,6 +7,12 @@ def get_company_list():
     return list(dict.fromkeys(companies))
 
 
+def get_working_days(year):
+    df = pd.read_csv('data/data_new_list_wikipedia.csv', header=[0, 1], index_col=0, dayfirst=True, parse_dates=True)
+    days = [item.strftime('%Y%m%d') for item in df.loc[str(year)].index.to_list()]
+
+    return days
+
 def get_prices(list_of_tickers):
     df = pd.read_csv('data/data_new_list_wikipedia.csv', header=[0, 1], index_col=0, dayfirst=True, parse_dates=True)
     df = df[list_of_tickers]

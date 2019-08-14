@@ -40,10 +40,11 @@ class Runner:
 
         print('Winner of the auction is ' + allocator.allocate_rfq(rfq).name)
 
+        self.current_day.set_end_of_day()
+        print(self.current_day.get_current_time())
+
         client_baptiste.display_portfolio()
         client_victor.display_portfolio()
 
-        self.current_day.set_end_of_day()
-        print(self.current_day.get_current_time())
         self.current_day.set_next_business_day()
         print(self.current_day.get_current_time())

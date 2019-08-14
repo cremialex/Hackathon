@@ -16,10 +16,11 @@ class Client:
         self.portfolio.append(position)
 
     def display_portfolio(self):
-        print(self.name + 'Portfolio is composed of: ')
+        print(self.name + ' Portfolio is composed of: ')
         for pos in self.portfolio:
             print('Symbol: ' + pos.symbol + ', quantity: ' + str(pos.qty) + ', fill date: ' + pos.get_fill_date()
                   .isoformat())
+        print(self.name + ' PnL is: ' + str(self.pnl))
 
     def get_name(self):
         return self.name
