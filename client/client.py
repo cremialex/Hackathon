@@ -1,3 +1,4 @@
+import client.portfolio as ptf
 import runner.calendar as cal
 
 
@@ -5,7 +6,7 @@ class Client:
     def __init__(self, name, function_rfq=lambda x: 0):
         self.name = name
         self.function_rfq = function_rfq
-        self.portfolio = []
+        self.portfolio = ptf.Portfolio()
         self.pnl = 0
         self.calendar = cal.Calendar()
 
@@ -13,13 +14,14 @@ class Client:
         return self.function_rfq(incoming_rfq)
 
     def add_to_portfolio(self, position):
-        self.portfolio.append(position)
+        self.portfolio.add_position(position)
 
     def display_portfolio(self):
         print(self.name + ' Portfolio is composed of: ')
-        for pos in self.portfolio:
-            print('Symbol: ' + pos.symbol + ', quantity: ' + str(pos.qty) + ', fill date: ' + pos.get_fill_date()
-                  .isoformat())
+        self.portfolio.compute_inventory()
+        self.portfolio.show_inventory()
+        self.portfolio.show_raw_positions()
+        self.portfolio.show_historical_positions()
         print(self.name + ' PnL is: ' + str(self.pnl))
 
     def get_name(self):
@@ -30,7 +32,3 @@ class Client:
 
     def adjust_pnl(self, trade_pnl):
         self.pnl = self.pnl + trade_pnl
-
-    def portfolio_manager(self):
-        for pos in self.portfolio:
-            print('to do')

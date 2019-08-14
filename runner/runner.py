@@ -38,7 +38,6 @@ class Runner:
         for i in range(9):
             RFQs.append(generator.get_new_rfq())
 
-
         for rfq in RFQs:
             print(rfq)
 
