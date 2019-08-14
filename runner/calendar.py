@@ -36,9 +36,15 @@ class Calendar:
     @staticmethod
     def set_next_business_day():
         Calendar.instance.add_time(next_day)
-        if Calendar.instance.get_current_time().weekday() > 4:
-            Calendar.instance.add_time(next_day)
+
+    @staticmethod
+    def to_next_day():
+        Calendar.instance.add_time(one_day)
 
     @staticmethod
     def get_current_time():
         return Calendar.instance.get_current_time()
+
+    @staticmethod
+    def get_current_day_string():
+        return Calendar.instance.get_current_time().strftime('%Y%m%d')

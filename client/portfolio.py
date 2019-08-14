@@ -13,6 +13,7 @@ class Portfolio:
         self.raw_positions.remove(position)
 
     def compute_inventory(self):
+        self.inventory.clear()
         for item in self.raw_positions:
             current_position = self.inventory.get(item.get_symbol())
             if current_position is None:

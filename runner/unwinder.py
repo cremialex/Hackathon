@@ -7,7 +7,7 @@ class Unwinder:
         self.calendar = cal.Calendar()
 
     def unwind_client(self, client):
-        print('unwinding client' + client.get_name())
+        print('unwinding client ' + client.get_name())
         client_ptf = client.get_portfolio()
         positions = client_ptf.get_raw_positions()
         position_to_remove = []
