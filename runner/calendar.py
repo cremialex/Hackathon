@@ -11,13 +11,16 @@ weekend = datetime.timedelta(days=2)
 class Calendar:
     class __Calendar:
         def __init__(self):
-            self.current_time = datetime.datetime(2018, 1, 2)
+            self.current_time = datetime.datetime(2017, 1, 1)
 
         def add_time(self, time):
             self.current_time = self.current_time + time
 
         def get_current_time(self):
             return self.current_time
+
+        def set_current_year(self, year):
+            self.current_time = datetime.datetime(year, 1, 1)
 
     instance = None
     
@@ -48,3 +51,7 @@ class Calendar:
     @staticmethod
     def get_current_day_string():
         return Calendar.instance.get_current_time().strftime('%Y%m%d')
+
+    @staticmethod
+    def set_start_year(year):
+        Calendar.instance.set_current_year(year)

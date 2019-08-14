@@ -7,15 +7,17 @@ import rfq.rfq_sender as generator
 import runner.allocator as alloc
 import runner.calendar as cal
 import runner.unwinder as unwind
-from answers import agata, alessandro, victor
+from answers import agata
 
 
 class Runner:
-    def __init__(self):
+    def __init__(self, year):
+        self.year = year
         self.current_day = cal.Calendar()
+        self.current_day.set_start_year(year)
         self.clients = []
         self.unwinder = unwind.Unwinder()
-        self.working_days = dal.get_working_days(2018)
+        self.working_days = dal.get_working_days(year)
 
     def run(self):
         import client.client as client
@@ -27,18 +29,12 @@ class Runner:
 
         clientNew = client.Client('agata', agata.answer_rfq)
         self.clients.append(clientNew)
-
-        clientNew = client.Client('victor', victor.answer_rfq)
-        self.clients.append(clientNew)
-
-        clientNew = client.Client('alessandro', alessandro.answer_rfq)
-        self.clients.append(clientNew)
         # ----------------------
 
         self.run_year()
 
     def run_year(self):
-        while self.current_day.get_current_time().year == 2018:
+        while self.current_day.get_current_time().year == self.year:
             while self.current_day.get_current_day_string() not in self.working_days:
                 self.current_day.to_next_day()
             self.run_day()
