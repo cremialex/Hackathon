@@ -59,7 +59,11 @@ class Runner:
             for client in self.clients:
                 print(str(client.name) + ' answer is ' + str(client.answer_rfq(rfq)))
 
-            print('Winner of the auction is ' + allocator.allocate_rfq(rfq).name)
+            rfq_winner = allocator.allocate_rfq(rfq)
+            if rfq_winner is None:
+                print('No Winner')
+            else:
+                print('Winner of the auction is ' + rfq_winner.name)
             print("\n")
 
         self.current_day.set_end_of_day()

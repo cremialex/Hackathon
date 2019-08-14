@@ -9,8 +9,11 @@ class Client:
         self.portfolio = ptf.Portfolio()
         self.pnl = 0
         self.calendar = cal.Calendar()
+        self.is_bankrupt = False
 
     def answer_rfq(self, incoming_rfq):
+        if self.is_bankrupt:
+            return None
         return self.function_rfq(incoming_rfq)
 
     def add_to_portfolio(self, position):
@@ -30,3 +33,6 @@ class Client:
 
     def adjust_pnl(self, trade_pnl):
         self.pnl = self.pnl + trade_pnl
+        if not self.is_bankrupt and self.pnl < 1_000_000:
+            self.is_bankrupt = True
+            print(self.name + ' is now BANKRUPT')
