@@ -4,13 +4,11 @@ import pandas as pd
 import dal.functions as dal
 
 
-def answer_rfq(incoming_rfq):
-    symbol = incoming_rfq[0]
-    price_stock_hist = dal.get_prices([symbol])
+def answer_rfq(rfq):
+    price_stock_hist = dal.get_prices(rfq.get_sym())
     price_stock_hist_ret = price_stock_hist.pct_change()
 
-    volume_stock_hist = dal.get_volumes([symbol])
-
+    volume_stock_hist = dal.get_volumes(rfq.get_sym())
     volume_stock_hist = pd.DataFrame(volume_stock_hist.values[0:125])
 
     quantile_volume = volume_stock_hist.quantile(0.95)

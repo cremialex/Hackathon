@@ -2,10 +2,8 @@ import dal.functions as dal
 
 
 def answer_rfq(incoming_rfq):
-    symbol = incoming_rfq[0]
-    trade_vol = incoming_rfq[1]
-    price_stock_hist = dal.get_prices([symbol])
-    price_stock_hist_ret = price_stock_hist.pct_change() * trade_vol / abs(trade_vol)
+    price_stock_hist = dal.get_prices(incoming_rfq.get_sym())
+    price_stock_hist_ret = price_stock_hist.pct_change() * incoming_rfq.get_qty() / abs(incoming_rfq.get_qty())
 
     z_dict = {
         0.8: 1.0050000001,

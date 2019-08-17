@@ -54,12 +54,9 @@ class Runner:
             rfq_list.append(generator.get_new_rfq())
 
         for rfq in rfq_list:
-            print(rfq)
+            print(rfq.get_sym(), rfq.get_qty())
 
             allocator = alloc.Allocator(self.clients)
-
-            for client in self.clients:
-                print(str(client.name) + ' answer is ' + str(client.answer_rfq(rfq)))
 
             rfq_winner = allocator.allocate_rfq(rfq)
             if rfq_winner is None:
