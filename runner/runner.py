@@ -1,14 +1,12 @@
-# Base Runner Code
-
+import importlib
+import os
 
 import backtest.backtest as benchmark
 import dal.functions as dal
-import os
 import rfq.rfq_sender as generator
 import runner.allocator as alloc
 import runner.calendar as cal
 import runner.unwinder as unwind
-import importlib
 
 
 class Runner:
@@ -25,18 +23,18 @@ class Runner:
         print(self.current_day.get_current_time())
 
         # import all the users from answers and add them all
-        directoryAnswers= os.getcwd()+"/answers"
-        for file in os.listdir(directoryAnswers):
+        directory_answers = os.getcwd() + "/answers"
+        for file in os.listdir(directory_answers):
             if file.endswith(".py"):
                 filename = os.fsdecode(file)
-                name= filename.split(".")[0]
-                mod =importlib.import_module("answers."+name, __name__)
-                clientNew = client.Client(name, mod.answer_rfq)
-                self.clients.append(clientNew)
+                name = filename.split(".")[0]
+                mod = importlib.import_module("answers." + name, __name__)
+                client_new = client.Client(name, mod.answer_rfq)
+                self.clients.append(client_new)
 
-        #keeping the benchmark
-        clientNew = client.Client('benchmark', benchmark.benchmark_safe_move)
-        self.clients.append(clientNew)
+        # keeping the benchmark
+        client_new = client.Client('benchmark', benchmark.benchmark_safe_move)
+        self.clients.append(client_new)
         # ----------------------
 
         self.run_year()
@@ -50,12 +48,12 @@ class Runner:
     def run_day(self):
         self.current_day.set_begin_of_day()
         print(self.current_day.get_current_time())
-        RFQs = []
+        rfq_list = []
 
         for i in range(5):
-            RFQs.append(generator.get_new_rfq())
+            rfq_list.append(generator.get_new_rfq())
 
-        for rfq in RFQs:
+        for rfq in rfq_list:
             print(rfq)
 
             allocator = alloc.Allocator(self.clients)
