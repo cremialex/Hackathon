@@ -31,7 +31,7 @@ class Runner:
                 filename = os.fsdecode(file)
                 name= filename.split(".")[0]
                 mod =importlib.import_module("answers."+name, __name__)
-                clientNew = client.Client(file, mod.answer_rfq)
+                clientNew = client.Client(name, mod.answer_rfq)
                 self.clients.append(clientNew)
 
         #keeping the benchmark
