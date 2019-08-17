@@ -15,7 +15,7 @@ def random_date(start, end):
 
 def get_new_rfq():
     data = dal.get_company_list()
-    index_sp500 = random.randint(0, 499)
+    index_sp500 = random.randint(0, len(data))
     quantity = random.randint(-10000, 10000)
     return data[index_sp500], quantity
 

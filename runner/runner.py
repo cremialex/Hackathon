@@ -1,13 +1,12 @@
 # Base Runner Code
 
 
-import backtest.backtest as benchmark
 import dal.functions as dal
 import rfq.rfq_sender as generator
 import runner.allocator as alloc
 import runner.calendar as cal
 import runner.unwinder as unwind
-from answers import agata
+from answers import tigers, underdogs, paddy, the_beast, xlent
 
 
 class Runner:
@@ -24,19 +23,25 @@ class Runner:
         print(self.current_day.get_current_time())
 
         # Creating fake clients manual at the moment make sure the import the answers
-        clientNew = client.Client('baptiste', benchmark.benchmark_safe_move)
+        clientNew = client.Client('xlent', xlent.answer_rfq)
         self.clients.append(clientNew)
 
-        clientNew = client.Client('agata', agata.answer_rfq)
+        clientNew = client.Client('tigers', tigers.answer_rfq)
+        self.clients.append(clientNew)
+
+        clientNew = client.Client('underdogs', underdogs.answer_rfq)
+        self.clients.append(clientNew)
+
+        clientNew = client.Client('paddy', paddy.answer_rfq)
+        self.clients.append(clientNew)
+
+        clientNew = client.Client('The beast', the_beast.answer_rfq)
         self.clients.append(clientNew)
         # ----------------------
 
         self.run_year()
 
     def run_year(self):
-        if self.year != 2017:
-            print('Input year must be 2017')
-            return 0
         while self.current_day.get_current_time().year == self.year:
             while self.current_day.get_current_day_string() not in self.working_days:
                 self.current_day.to_next_day()
