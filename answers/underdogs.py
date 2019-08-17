@@ -1,6 +1,8 @@
 import dal.functions as dal
 
 
+# Buying: (0.3 z_score prices) % of current price added (careful, z_score prices can be negative)
+# Selling: (0.5 z_score prices) % of current price removed
 def answer_rfq(rfq):
     historical_prices = dal.get_prices(rfq.get_sym())
     hist_price_z_scr = z_score(historical_prices)

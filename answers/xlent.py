@@ -4,6 +4,8 @@ import pandas as pd
 import dal.functions as dal
 
 
+# Strategy based on momentum (of only latest return)
+# More agressive if volume above 95% quantile
 def answer_rfq(rfq):
     price_stock_hist = dal.get_prices(rfq.get_sym())
     price_stock_hist_ret = price_stock_hist.pct_change()
