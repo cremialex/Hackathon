@@ -1,12 +1,14 @@
 # Base Runner Code
 
 
+import backtest.backtest as benchmark
 import dal.functions as dal
+import os
 import rfq.rfq_sender as generator
 import runner.allocator as alloc
 import runner.calendar as cal
 import runner.unwinder as unwind
-from answers import tigers, underdogs, paddy, the_beast, xlent
+import importlib
 
 
 class Runner:
@@ -22,20 +24,18 @@ class Runner:
         import client.client as client
         print(self.current_day.get_current_time())
 
-        # Creating fake clients manual at the moment make sure the import the answers
-        clientNew = client.Client('xlent', xlent.answer_rfq)
-        self.clients.append(clientNew)
+        # import all the users from answers and add them all
+        directoryAnswers= os.getcwd()+"/answers"
+        for file in os.listdir(directoryAnswers):
+            if file.endswith(".py"):
+                filename = os.fsdecode(file)
+                name= filename.split(".")[0]
+                mod =importlib.import_module("answers."+name, __name__)
+                clientNew = client.Client(name, mod.answer_rfq)
+                self.clients.append(clientNew)
 
-        clientNew = client.Client('tigers', tigers.answer_rfq)
-        self.clients.append(clientNew)
-
-        clientNew = client.Client('underdogs', underdogs.answer_rfq)
-        self.clients.append(clientNew)
-
-        clientNew = client.Client('paddy', paddy.answer_rfq)
-        self.clients.append(clientNew)
-
-        clientNew = client.Client('The beast', the_beast.answer_rfq)
+        #keeping the benchmark
+        clientNew = client.Client('benchmark', benchmark.benchmark_safe_move)
         self.clients.append(clientNew)
         # ----------------------
 
