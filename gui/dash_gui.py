@@ -36,8 +36,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             {'label': '2018', 'value': '2018'},
         ],
         value='2017'
-    ),style = { 'align-items': 'left', 'justify-content': 'left'}),
-
+    ),style = { 'width': '10%', 'justify-content': 'left'}),
     html.Button('Submit', id='button'),
     html.Div(id='output-container-button',
              children='Enter the year for the RFQ to run'),
@@ -51,7 +50,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             ],
             'layout': {
                 'plot_bgcolor': colors['background'],
-                'title': 'PnL over time',
+                'title': 'Analytics for the PnL over time',
                 'font': {
                     'color': colors['text']
                 }
