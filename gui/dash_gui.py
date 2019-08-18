@@ -62,7 +62,7 @@ def runningRFQ(n_clicks, value):
     if not value :
         return "RFQ is not running"
     else:
-        os.system("gnome-terminal -- bash -c 'python3 '"+os.getcwd()+"'/../main.py 2018; exec bash'")
+        os.system("gnome-terminal -- bash -c 'python3 '"+os.getcwd()+"'/../main.py "+value+"; exec bash'")
         return 'RFQ launched for {}'.format(
         value)
 
