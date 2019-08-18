@@ -51,7 +51,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             ],
             'layout': {
                 'plot_bgcolor': colors['background'],
-                'title': 'Dash Data Visualization',
+                'title': 'PnL over time',
                 'font': {
                     'color': colors['text']
                 }
