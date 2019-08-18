@@ -1,14 +1,12 @@
-import client.portfolio as ptf
-import runner.calendar as cal
+from client.portfolio import Portfolio
 
 
 class Client:
     def __init__(self, name, function_rfq=lambda x: 0):
         self.name = name
         self.function_rfq = function_rfq
-        self.portfolio = ptf.Portfolio()
+        self.portfolio = Portfolio()
         self.pnl = 0
-        self.calendar = cal.Calendar()
         self.is_bankrupt = False
 
     def answer_rfq(self, incoming_rfq):

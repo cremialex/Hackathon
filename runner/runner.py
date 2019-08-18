@@ -4,25 +4,25 @@ import os
 import backtest.backtest as benchmark
 import rfq.rfq_sender as generator
 import runner.allocator as alloc
-import runner.calendar as cal
-import runner.unwinder as unwind
+from client.client import Client
 from dal.service import DalService
+from runner.calendar import CalendarService
+from runner.unwind import UnwindService
 
 
 class Runner:
     # Runner must init services
     def __init__(self, year):
-        self.year = year
-        self.clients = []
-        self.current_day = cal.Calendar()
-        self.current_day.set_start_year(year)
-        self.unwinder = unwind.Unwinder()
+        CalendarService()
         DalService()
+        UnwindService()
+        self.year = year
+        CalendarService.set_start_year(year)
+        self.clients = []
         self.working_days = DalService.get_working_days(year)
 
     def run(self):
-        import client.client as client
-        print(self.current_day.get_current_time())
+        print(CalendarService.get_current_time())
 
         # import all the users from answers and add them all
         directory_answers = os.getcwd() + "/answers"
@@ -31,25 +31,25 @@ class Runner:
                 filename = os.fsdecode(file)
                 name = filename.split(".")[0]
                 mod = importlib.import_module("answers." + name, __name__)
-                client_new = client.Client(name, mod.answer_rfq)
+                client_new = Client(name, mod.answer_rfq)
                 self.clients.append(client_new)
 
         # keeping the benchmark
-        client_new = client.Client('benchmark', benchmark.benchmark_safe_move)
+        client_new = Client('benchmark', benchmark.benchmark_safe_move)
         self.clients.append(client_new)
         # ----------------------
 
         self.run_year()
 
     def run_year(self):
-        while self.current_day.get_current_time().year == self.year:
-            while self.current_day.get_current_day_string() not in self.working_days:
-                self.current_day.to_next_day()
+        while CalendarService.get_current_time().year == self.year:
+            while CalendarService.get_current_day_string() not in self.working_days:
+                CalendarService.to_next_day()
             self.run_day()
 
     def run_day(self):
-        self.current_day.set_begin_of_day()
-        print(self.current_day.get_current_time())
+        CalendarService.set_begin_of_day()
+        print(CalendarService.get_current_time())
         rfq_list = []
 
         for i in range(5):
@@ -67,13 +67,13 @@ class Runner:
                 print('Winner of the auction is ' + rfq_winner.name)
             print("\n")
 
-        self.current_day.set_end_of_day()
-        print(self.current_day.get_current_time())
+        CalendarService.set_end_of_day()
+        print(CalendarService.get_current_time())
 
         for client in self.clients:
-            self.unwinder.unwind_client(client)
+            UnwindService.unwind_client(client)
             client.display_portfolio()
 
-        self.current_day.set_next_business_day()
+        CalendarService.set_next_business_day()
         print("\n\n------- NEW DAY -------")
-        print(self.current_day.get_current_time())
+        print(CalendarService.get_current_time())

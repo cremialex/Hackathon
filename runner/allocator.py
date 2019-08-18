@@ -1,17 +1,17 @@
 import client.position as position
-import runner.calendar as cal
 from dal.service import DalService
+from runner.calendar import CalendarService
 
 
 class Allocator:
     def __init__(self, clients):
         self.clients = clients
-        self.calendar = cal.Calendar()
 
     def allocate_rfq(self, incoming_rfq):
         winning_client = None
         best_bet = None
-        rfq_as_pos = position.Position(incoming_rfq.get_sym(), incoming_rfq.get_qty(), self.calendar.get_current_time())
+        rfq_as_pos = position.Position(incoming_rfq.get_sym(), incoming_rfq.get_qty(),
+                                       CalendarService.get_current_time())
         if incoming_rfq.get_qty() > 0:
             best_bet = 0
             for client in self.clients:
@@ -32,6 +32,6 @@ class Allocator:
         if winning_client is not None:
             winning_client.add_to_portfolio(rfq_as_pos)
             winning_client.adjust_pnl(incoming_rfq.get_qty() * (
-                    DalService.get_price_stock(incoming_rfq.get_sym(), self.calendar.get_current_time()) - best_bet))
+                    DalService.get_price_stock(incoming_rfq.get_sym(), CalendarService.get_current_time()) - best_bet))
             return winning_client
         return None
