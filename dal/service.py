@@ -52,3 +52,24 @@ class DalService:
     @staticmethod
     def get_price_stock(sym, date):
         return DalService.instance.get_price_stock(sym, date)
+
+    @staticmethod
+    def get_macd(data):
+        exp1 = data.ewm(span=12, adjust=False).mean()
+        exp2 = data.ewm(span=26, adjust=False).mean()
+        return exp1 - exp2
+
+    @staticmethod
+    def get_macd_signal_line(data):
+        exp1 = data.ewm(span=12, adjust=False).mean()
+        exp2 = data.ewm(span=26, adjust=False).mean()
+        macd = exp1 - exp2
+        return macd.ewm(span=9, adjust=False).mean()
+
+    @staticmethod
+    def get_volatilities(data, days):
+        return data.rolling(days).std()
+
+    @staticmethod
+    def get_moving_average(data, days):
+        return data.rolling(days).mean()
