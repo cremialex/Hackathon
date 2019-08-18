@@ -26,18 +26,11 @@ class Runner:
         print(CalendarService.get_current_time())
 
         # import all the users from answers and add them all
-        directory_answers = os.getcwd() + "/answers"
-        for file in os.listdir(directory_answers):
-            if file.endswith(".py"):
-                filename = os.fsdecode(file)
-                name = filename.split(".")[0]
-                mod = importlib.import_module("answers." + name, __name__)
-                client_new = Client(name, mod.answer_rfq)
-                self.clients.append(client_new)
+        self.get_all_clients()
 
         # keeping the benchmark
-        client_new = Client('benchmark', benchmark.benchmark_safe_move)
-        self.clients.append(client_new)
+        #client_new = Client('benchmark', benchmark.benchmark_safe_move)
+        #self.clients.append(client_new)
         # ----------------------
 
         self.run_year()
@@ -76,3 +69,13 @@ class Runner:
         CalendarService.set_next_business_day()
         print("\n\n------- NEW DAY -------")
         print(CalendarService.get_current_time())
+
+    def get_all_clients(self):
+        directory_answers = os.getcwd() + "/answers"
+        for file in os.listdir(directory_answers):
+            if file.endswith(".py"):
+                filename = os.fsdecode(file)
+                name = filename.split(".")[0]
+                mod = importlib.import_module("answers." + name, __name__)
+                client_new = Client(name, mod.answer_rfq)
+                self.clients.append(client_new)
