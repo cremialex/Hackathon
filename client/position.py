@@ -10,8 +10,11 @@ class Position:
     def get_qty(self):
         return self._qty
 
-    def set_qty(self, new_qty):
-        self._qty = new_qty
+    def set_qty(self, qty):
+        self._qty = qty
 
     def get_fill_date(self):
         return self._fill_date
+
+    def __str__(self):
+        return ' '.join([self._symbol, str(self._qty), self._fill_date.strftime('%Y-%m-%d')])
