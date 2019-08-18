@@ -16,7 +16,7 @@ class AllocatorService:
                 best_bet = 0
                 for client in self._clients:
                     client_ans = client.answer_rfq(incoming_rfq)
-                    print(str(client.name) + ' answer is ' + str(client_ans))
+                    print(str(client.get_name()) + ' answer is ' + str(client_ans))
                     if client_ans is not None and client_ans > best_bet:
                         winning_client = client
                         best_bet = client_ans
@@ -24,7 +24,7 @@ class AllocatorService:
                 best_bet = 1000000
                 for client in self._clients:
                     client_ans = client.answer_rfq(incoming_rfq)
-                    print(str(client.name) + ' answer is ' + str(client_ans))
+                    print(str(client.get_name()) + ' answer is ' + str(client_ans))
                     if client_ans is not None and client_ans < best_bet:
                         winning_client = client
                         best_bet = client_ans

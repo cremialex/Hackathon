@@ -1,7 +1,6 @@
 import importlib
 import os
 
-import backtest.backtest as benchmark
 import rfq.rfq_sender as generator
 from client.client import Client
 from dal.service import DalService
@@ -56,7 +55,7 @@ class Runner:
             if rfq_winner is None:
                 print('No Winner')
             else:
-                print('Winner of the auction is ' + rfq_winner.name)
+                print('Winner of the auction is ' + rfq_winner.get_name())
             print("\n")
 
         CalendarService.set_end_of_day()
