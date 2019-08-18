@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import subprocess
-import os
-import runner.runner as run
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -36,7 +35,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             {'label': '2018', 'value': '2018'},
         ],
         value='2017'
-    ),style = { 'width': '10%', 'justify-content': 'left'}),
+    ), style={'width': '10%', 'justify-content': 'left'}),
     html.Button('Submit', id='button'),
     html.Div(id='output-container-button',
              children='Enter the year for the RFQ to run'),
@@ -58,23 +57,22 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         }
     )
 
-
 ])
+
 
 @app.callback(
     dash.dependencies.Output('output-container-button', 'children'),
     [dash.dependencies.Input('button', 'n_clicks')],
     [dash.dependencies.State('dropdownYear', 'value')])
-def runningRFQ(n_clicks, value):
+def running_rfq(n_clicks, value):
     print(str(n_clicks))
-    if(n_clicks ==0 or not n_clicks):
+    if n_clicks == 0 or not n_clicks:
         return "RFQ is not running"
     else:
-        os.system("gnome-terminal --working-directory="+os.getcwd()+"/../ -- bash -c 'python3 main.py "+value+"; exec bash'")
-        return 'RFQ launched for {}'.format(
-        value)
+        os.system("gnome-terminal --working-directory=" + os.getcwd() + "/../ -- bash -c 'python3 main.py " +
+                  value + "; exec bash'")
+        return 'RFQ launched for {}'.format(value)
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
