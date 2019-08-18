@@ -29,7 +29,15 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'color': colors['text']
     }),
 
-    html.Div(dcc.Input(id='input-box', type='text')),
+    html.Div(dcc.Dropdown(
+        id='dropdownYear',
+        options=[
+            {'label': '2017', 'value': '2017'},
+            {'label': '2018', 'value': '2018'},
+        ],
+        value='2017'
+    ),style = { 'align-items': 'left', 'justify-content': 'left'}),
+
     html.Button('Submit', id='button'),
     html.Div(id='output-container-button',
              children='Enter the year for the RFQ to run'),
@@ -57,9 +65,10 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 @app.callback(
     dash.dependencies.Output('output-container-button', 'children'),
     [dash.dependencies.Input('button', 'n_clicks')],
-    [dash.dependencies.State('input-box', 'value')])
+    [dash.dependencies.State('dropdownYear', 'value')])
 def runningRFQ(n_clicks, value):
-    if not value :
+    print(str(n_clicks))
+    if(n_clicks ==0 or not n_clicks):
         return "RFQ is not running"
     else:
         os.system("gnome-terminal --working-directory="+os.getcwd()+"/../ -- bash -c 'python3 main.py "+value+"; exec bash'")
