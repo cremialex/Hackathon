@@ -7,11 +7,10 @@ class DalService:
     class __DalService:
         def __init__(self):
             self.df = pd.read_csv('data/data_new_list_wikipedia.csv', header=[0, 1], index_col=0, dayfirst=True,
-                                  parse_dates=True)
+                                  parse_dates=True).dropna(axis=1)
 
         def get_company_list(self):
-            df = self.df.dropna(axis=1)
-            companies = df.columns.get_level_values(0).to_list()
+            companies = self.df.columns.get_level_values(0).to_list()
             return list(dict.fromkeys(companies))
 
         def get_working_days(self, year):
