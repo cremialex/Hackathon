@@ -4,6 +4,7 @@ import os
 import rfq.rfq_sender as generator
 from client.client import Client
 from dal.service import DalService
+from datalogger.logger_service import LoggerService
 from runner.allocator import AllocatorService
 from runner.calendar import CalendarService
 from runner.unwind import UnwindService
@@ -15,6 +16,7 @@ class Runner:
         CalendarService()
         DalService()
         UnwindService()
+        LoggerService()
         self.year = year
         CalendarService.set_start_year(year)
         self.clients = []

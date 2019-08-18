@@ -1,4 +1,7 @@
+from client.pnl_event import PnlEvent
 from client.portfolio import Portfolio
+from datalogger.logger_service import LoggerService
+from runner.calendar import CalendarService
 
 
 class Client:
@@ -30,6 +33,8 @@ class Client:
         return self._portfolio
 
     def adjust_pnl(self, trade_pnl):
+        pnl_event = PnlEvent(CalendarService.get_current_time(), trade_pnl, self._name, 'No reason')
+        LoggerService.log(pnl_event)
         self._pnl = self._pnl + trade_pnl
         if not self._is_bankrupt and self._pnl < -1_000_000:
             self._is_bankrupt = True
