@@ -1,10 +1,10 @@
-import dal.functions as dal
+from dal.service import DalService
 
 
 # Buying: (0.3 z_score prices) % of current price added (careful, z_score prices can be negative)
 # Selling: (0.5 z_score prices) % of current price removed
 def answer_rfq(rfq):
-    historical_prices = dal.get_prices(rfq.get_sym())
+    historical_prices = DalService.get_prices(rfq.get_sym())
     hist_price_z_scr = z_score(historical_prices)
 
     if rfq.get_qty() < 1:

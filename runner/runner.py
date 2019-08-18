@@ -2,21 +2,23 @@ import importlib
 import os
 
 import backtest.backtest as benchmark
-import dal.functions as dal
 import rfq.rfq_sender as generator
 import runner.allocator as alloc
 import runner.calendar as cal
 import runner.unwinder as unwind
+from dal.service import DalService
 
 
 class Runner:
+    # Runner must init services
     def __init__(self, year):
         self.year = year
+        self.clients = []
         self.current_day = cal.Calendar()
         self.current_day.set_start_year(year)
-        self.clients = []
         self.unwinder = unwind.Unwinder()
-        self.working_days = dal.get_working_days(year)
+        DalService()
+        self.working_days = DalService.get_working_days(year)
 
     def run(self):
         import client.client as client

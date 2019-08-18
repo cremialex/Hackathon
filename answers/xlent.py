@@ -1,16 +1,16 @@
 import numpy as np
 import pandas as pd
 
-import dal.functions as dal
+from dal.service import DalService
 
 
 # Strategy based on momentum (of only latest return)
 # More agressive if volume above 95% quantile
 def answer_rfq(rfq):
-    price_stock_hist = dal.get_prices(rfq.get_sym())
+    price_stock_hist = DalService.get_prices(rfq.get_sym())
     price_stock_hist_ret = price_stock_hist.pct_change()
 
-    volume_stock_hist = dal.get_volumes(rfq.get_sym())
+    volume_stock_hist = DalService.get_volumes(rfq.get_sym())
     volume_stock_hist = pd.DataFrame(volume_stock_hist.values[0:125])
 
     quantile_volume = volume_stock_hist.quantile(0.95)

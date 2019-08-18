@@ -1,6 +1,6 @@
 import client.position as position
-import dal.functions as dal
 import runner.calendar as cal
+from dal.service import DalService
 
 
 class Allocator:
@@ -32,6 +32,6 @@ class Allocator:
         if winning_client is not None:
             winning_client.add_to_portfolio(rfq_as_pos)
             winning_client.adjust_pnl(incoming_rfq.get_qty() * (
-                    dal.get_price_stock(incoming_rfq.get_sym(), self.calendar.get_current_time()) - best_bet))
+                    DalService.get_price_stock(incoming_rfq.get_sym(), self.calendar.get_current_time()) - best_bet))
             return winning_client
         return None

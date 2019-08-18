@@ -1,5 +1,5 @@
-import dal.functions as dal
 import runner.calendar as cal
+from dal.service import DalService
 
 
 class Unwinder:
@@ -16,5 +16,5 @@ class Unwinder:
                 print("Needs to unwind position " + item.get_symbol())
                 client_ptf.remove_position(item)
                 client.adjust_pnl(item.get_qty() *
-                                  (dal.get_price_stock(item.get_symbol(), self.calendar.get_current_time()) -
-                                   dal.get_price_stock(item.get_symbol(), item.get_fill_date())))
+                                  (DalService.get_price_stock(item.get_symbol(), self.calendar.get_current_time()) -
+                                   DalService.get_price_stock(item.get_symbol(), item.get_fill_date())))

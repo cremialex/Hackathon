@@ -1,13 +1,13 @@
-import dal.functions as dal
+from dal.service import DalService
 
 
 # return current price times a multiplier (4 different values)
 # this multiplier is define in a dictionnary, the key selected is
 # the closest to z-score returns
 # Strategy is basicaly momentum based and cutting risk for too large z_score
-def answer_rfq(incoming_rfq):
-    price_stock_hist = dal.get_prices(incoming_rfq.get_sym())
-    price_stock_hist_ret = price_stock_hist.pct_change() * incoming_rfq.get_qty() / abs(incoming_rfq.get_qty())
+def answer_rfq(rfq):
+    price_stock_hist = DalService.get_prices(rfq.get_sym())
+    price_stock_hist_ret = price_stock_hist.pct_change() * rfq.get_qty() / abs(rfq.get_qty())
 
     z_dict = {
         0.8: 1.0050000001,  # add 50 bips
