@@ -3,9 +3,9 @@ import os
 
 import backtest.backtest as benchmark
 import rfq.rfq_sender as generator
-import runner.allocator as alloc
 from client.client import Client
 from dal.service import DalService
+from runner.allocator import AllocatorService
 from runner.calendar import CalendarService
 from runner.unwind import UnwindService
 
@@ -19,6 +19,7 @@ class Runner:
         self.year = year
         CalendarService.set_start_year(year)
         self.clients = []
+        AllocatorService(self.clients)
         self.working_days = DalService.get_working_days(year)
 
     def run(self):
@@ -58,9 +59,7 @@ class Runner:
         for rfq in rfq_list:
             print(rfq.get_sym(), rfq.get_qty())
 
-            allocator = alloc.Allocator(self.clients)
-
-            rfq_winner = allocator.allocate_rfq(rfq)
+            rfq_winner = AllocatorService.allocate_rfq(rfq)
             if rfq_winner is None:
                 print('No Winner')
             else:
