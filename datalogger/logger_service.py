@@ -1,5 +1,5 @@
 import csv
-
+import os
 
 class LoggerService:
     class __LoggerService:
@@ -7,7 +7,10 @@ class LoggerService:
             self._log_files = {}
 
         def register_class(self, clazz):
+
             file_name = 'logs/' + clazz.__name__ + '.csv'
+            if file_name:
+                os.remove(file_name)
             self._log_files[clazz] = file_name
             open(file_name, 'w+').close()
             return file_name
