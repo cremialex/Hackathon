@@ -1,1 +1,1 @@
-# HackathonMS
+# Hackathon
