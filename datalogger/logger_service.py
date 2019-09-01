@@ -9,7 +9,9 @@ class LoggerService:
         def register_class(self, clazz):
 
             file_name = 'logs/' + clazz.__name__ + '.csv'
-            if file_name:
+            name = clazz.__name__ + '.csv'
+
+            if file_name and self.file_already_there(name):
                 os.remove(file_name)
             self._log_files[clazz] = file_name
             open(file_name, 'w+').close()
@@ -23,6 +25,13 @@ class LoggerService:
                 writer = csv.writer(csvFile)
                 writer.writerow(obj.log())
             csvFile.close()
+
+        def file_already_there(self, name):
+            directory_logs = os.getcwd() + "/logs"
+            for file in os.listdir(directory_logs):
+                if file == name:
+                    return True
+            return False
 
     instance = None
 
