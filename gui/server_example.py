@@ -28,3 +28,5 @@ if __name__ == "__main__":
             print(full_msg[HEADER_SIZE:])
             new_msg = True
             full_msg = ''
+
+hello
