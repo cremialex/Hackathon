@@ -8,6 +8,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
 import csv
+from dash.dependencies import Input, Output
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -52,17 +53,21 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
              children='Enter the year for the RFQ to run'),
 
     dcc.Graph(id='pnl_graph'),
+    dcc.Interval(
+            id='interval-component',
+            interval=1*1000, # in milliseconds
+            n_intervals=0
+        )
 ])
 
 
 
 @app.callback(
-    dash.dependencies.Output('pnl_graph', 'figure'),
-    [dash.dependencies.Input('dropdownYear', 'value')],)
-def update_graph(value):
-
+    Output('pnl_graph', 'figure'),
+    [Input('dropdownYear', 'value'), Input('interval-component', 'n_intervals'), Input('button', 'n_clicks')],)
+def update_graph(value, n, n_clicks):
     pnl_table= read_clients_and_create_dataframe(value)
-    print(pnl_table)
+
     trace=[]
     for el in pnl_table.columns:
         trace.append(go.Scatter(x=pnl_table.index, y=pnl_table[el], name=el))
@@ -70,8 +75,8 @@ def update_graph(value):
         'data': trace,
         'layout': {
             'title': 'PnL over time RFQ MS',
-            }
-    }
+                }
+        }
 
 
 
@@ -105,20 +110,12 @@ def read_clients_and_create_dataframe(value):
     with open(os.getcwd() + '/../logs/PnlEvent.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
-        print(pnl_table)
         for eventPnl in csv_reader:
             date= datetime.datetime.strptime(eventPnl[0], '%Y%m%d').date()
-            print(date.isoformat() in pnl_table.index)
             if date.isoformat() not in pnl_table.index:
-                print('here')
-                print(pnl_table.tail(1))
-                print(pnl_table.index[-1])
-                print('test')
                 data= pnl_table.loc[pnl_table.index[-1]]
-                print(data)
                 pnl_table.loc[date.isoformat()]=data
                 #pnl_table.iloc[-1]=#add new date in PnL
-                print('heer2')
             pnl_table.at[date.isoformat(), eventPnl[2]] = float(pnl_table.at[date.isoformat(), eventPnl[2]]) + float(eventPnl[1])
 
     return pnl_table
@@ -126,4 +123,4 @@ def read_clients_and_create_dataframe(value):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
