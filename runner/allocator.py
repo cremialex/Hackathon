@@ -31,6 +31,7 @@ class AllocatorService:
 
             if winning_client is not None:
                 winning_client.add_to_portfolio(rfq_as_pos)
+                # why do we already adjust pnl against the market price, it's not like we are hedging each position
                 winning_client.adjust_pnl(incoming_rfq.get_qty() * (
                         DalService.get_price_stock(incoming_rfq.get_sym(),
                                                    CalendarService.get_current_time()) - best_bet))

@@ -89,15 +89,14 @@ def running_rfq(n_clicks, value):
     if n_clicks == 0 or not n_clicks:
         return "RFQ is not running"
     else:
-        os.system("gnome-terminal --working-directory=" + os.getcwd() + "/../ -- bash -c 'python3 main.py " +
-                  value + "; exec bash'")
+        os.system("python " + os.getcwd() + "/main.py " + value)
         return 'RFQ launched for {}'.format(value)
 
 #read the list of the clietns in the answer folder and create the initial dataframe
 def read_clients_and_create_dataframe(value):
     dateJan= datetime.date(year=int(value), month=1, day=1).isoformat()
     data = {}
-    directory_answers = os.getcwd() + "/../answers"
+    directory_answers = os.getcwd() + "/answers"
     for file in os.listdir(directory_answers):
         if file.endswith(".py"):
             filename = os.fsdecode(file)
@@ -107,7 +106,7 @@ def read_clients_and_create_dataframe(value):
     pnl_table = pd.DataFrame(data, index=[dateJan])
 
     #read csv + plot
-    with open(os.getcwd() + '/../logs/PnlEvent.csv') as csv_file:
+    with open(os.getcwd() + '/logs/PnlEvent.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for eventPnl in csv_reader:

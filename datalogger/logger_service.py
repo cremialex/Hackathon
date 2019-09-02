@@ -1,6 +1,6 @@
 import csv
+import os
 import socket
-
 
 class LoggerService:
     class __LoggerService:
@@ -16,7 +16,12 @@ class LoggerService:
             print(f'Connection established and received: {warmup_msg}')
 
         def register_class(self, clazz):
+
             file_name = 'logs/' + clazz.__name__ + '.csv'
+            name = clazz.__name__ + '.csv'
+
+            if file_name and self.file_already_there(name):
+                os.remove(file_name)
             self._log_files[clazz] = file_name
             open(file_name, 'w+').close()
             return file_name
@@ -42,6 +47,13 @@ class LoggerService:
         def convert_tuple(tup):
             res = ','.join(tup)
             return res
+
+        def file_already_there(self, name):
+            directory_logs = os.getcwd() + "/logs"
+            for file in os.listdir(directory_logs):
+                if file == name:
+                    return True
+            return False
 
     instance = None
 
