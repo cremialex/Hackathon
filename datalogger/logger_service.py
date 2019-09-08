@@ -7,7 +7,7 @@ class LoggerService:
         def __init__(self):
             self._log_files = {}
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.host = socket.gethostname()
+            self.host = 'localhost'
             self.HEADER_SIZE = 10
             self.port = 9999
             self.sock.connect((self.host, self.port))
