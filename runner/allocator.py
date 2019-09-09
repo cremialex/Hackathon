@@ -8,6 +8,7 @@ class AllocatorService:
         def __init__(self, clients):
             self._clients = clients
 
+        # noinspection PyBroadException
         def allocate_rfq(self, incoming_rfq):
             winning_client = None
             best_bet = None
@@ -15,7 +16,10 @@ class AllocatorService:
             if incoming_rfq.get_qty() > 0:
                 best_bet = 0
                 for client in self._clients:
-                    client_ans = client.answer_rfq(incoming_rfq)
+                    try:
+                        client_ans = client.answer_rfq(incoming_rfq)
+                    except:
+                        client_ans = None
                     print(str(client.get_name()) + ' answer is ' + str(client_ans))
                     if client_ans is not None and client_ans > best_bet:
                         winning_client = client
@@ -23,7 +27,10 @@ class AllocatorService:
             if incoming_rfq.get_qty() <= 0:
                 best_bet = 1000000
                 for client in self._clients:
-                    client_ans = client.answer_rfq(incoming_rfq)
+                    try:
+                        client_ans = client.answer_rfq(incoming_rfq)
+                    except:
+                        client_ans = None
                     print(str(client.get_name()) + ' answer is ' + str(client_ans))
                     if client_ans is not None and client_ans < best_bet:
                         winning_client = client

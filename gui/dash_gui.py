@@ -16,7 +16,6 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-
 colors = {
     'background': '#FFFFFF',
     'text': '#A9A9A9'
@@ -51,7 +50,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     dcc.Graph(id='pnl_graph'),
     dcc.Interval(
         id='interval-component',
-        interval=200,  # in milliseconds
+        interval=1000,  # in milliseconds
         n_intervals=0
     )
 ])
@@ -63,20 +62,29 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     [Input('dropdownYear', 'value'), Input('interval-component', 'n_intervals'), Input('button', 'n_clicks')], )
 def update_graph(value, n, n_clicks):
     global initialised
-    if not initialised:
+    if not initialised and n_clicks is not None:
         read_clients_and_create_dataframe(value)
         initialised = True
-    parse_data_socket()
 
-    trace = []
-    for el in pnl_data.columns:
-        trace.append(go.Scatter(x=pnl_data.index, y=pnl_data[el], name=el))
-    return {
-        'data': trace,
-        'layout': {
-            'title': 'PnL over time RFQ MS',
+    if initialised:
+        parse_data_socket()
+
+        trace = []
+        for el in pnl_data.columns:
+            trace.append(go.Scatter(x=pnl_data.index, y=pnl_data[el], name=el))
+        return {
+            'data': trace,
+            'layout': {
+                'title': 'PnL over time RFQ MS',
+            }
         }
-    }
+    else:
+        return {
+            'data': [],
+            'layout': {
+                'title': 'PnL over time RFQ MS',
+            }
+        }
 
 
 def run_simulation(value):
