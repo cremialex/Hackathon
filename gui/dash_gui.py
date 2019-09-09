@@ -40,7 +40,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         options=[
             {'label': '2017', 'value': '2017'}
         ],
-        value='2018'
+        value='2017'
     ), style={'width': '10%', 'justify-content': 'left'}),
     html.Button('Submit', id='button'),
     html.Div(id='output-container-button',
