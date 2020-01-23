@@ -23,10 +23,6 @@ def answer_rfq(rfq):
     hist_volume = DalService.get_volumes(rfq.get_sym()).iloc[-20:]
     med_volume = np.median(hist_volume)
 
-    print("short", short_mean)
-    print("long", long_mean)
-    print("short vol ", short_vol)
-
     if rfq.get_qty() < 0:  # achat, prix le plus bas
         """
         if(short_mean<long_mean):
