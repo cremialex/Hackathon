@@ -12,11 +12,11 @@ from runner.unwind import UnwindService
 
 class Runner:
     # Runner must init services
-    def __init__(self, year):
+    def __init__(self, year, withSocket):
         CalendarService()
         DalService()
         UnwindService()
-        LoggerService()
+        LoggerService(withSocket)
         RfqService()
         self.year = year
         CalendarService.set_start_year(year)

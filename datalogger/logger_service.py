@@ -4,16 +4,19 @@ import socket
 
 class LoggerService:
     class __LoggerService:
-        def __init__(self):
+        def __init__(self,withSocket):
+            self.withSocket = withSocket
             self._log_files = {}
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.host = 'localhost'
-            self.HEADER_SIZE = 10
-            self.port = 9999
-            self.sock.connect((self.host, self.port))
-            warmup_msg = self.sock.recv(1024)
-            warmup_msg = warmup_msg.decode('utf-8')
-            print(f'Connection established and received: {warmup_msg}')
+
+            if self.withSocket:
+                self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.host = 'localhost'
+                self.HEADER_SIZE = 10
+                self.port = 9999
+                self.sock.connect((self.host, self.port))
+                warmup_msg = self.sock.recv(1024)
+                warmup_msg = warmup_msg.decode('utf-8')
+                print(f'Connection established and received: {warmup_msg}')
 
         def register_class(self, clazz):
 
@@ -57,11 +60,12 @@ class LoggerService:
 
     instance = None
 
-    def __init__(self):
+    def __init__(self, withSocket):
         if not LoggerService.instance:
-            LoggerService.instance = LoggerService.__LoggerService()
+            LoggerService.instance = LoggerService.__LoggerService(withSocket)
 
     @staticmethod
     def log(obj):
         LoggerService.instance.log_csv(obj)
-        LoggerService.instance.log_sock(obj)
+        if LoggerService.instance.withSocket:
+            LoggerService.instance.log_sock(obj)
