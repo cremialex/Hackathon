@@ -87,7 +87,7 @@ def update_graph(value, n, n_clicks):
 
 
 def run_simulation(value):
-    os.system("python " + os.getcwd() + "/main.py " + value)
+    os.system("python3 " + os.getcwd() + "/main.py " + value)
 
 
 @app.callback(
