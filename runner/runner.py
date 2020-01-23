@@ -1,10 +1,10 @@
 import importlib
 import os
 
-import rfq.rfq_sender as generator
 from client.client import Client
 from dal.service import DalService
 from datalogger.logger_service import LoggerService
+from rfq.rfq_sender import RfqService
 from runner.allocator import AllocatorService
 from runner.calendar import CalendarService
 from runner.unwind import UnwindService
@@ -17,6 +17,7 @@ class Runner:
         DalService()
         UnwindService()
         LoggerService()
+        RfqService()
         self.year = year
         CalendarService.set_start_year(year)
         self.clients = []
@@ -28,11 +29,6 @@ class Runner:
 
         # import all the users from answers and add them all
         self.get_all_clients()
-
-        # keeping the benchmark
-        #client_new = Client('benchmark', benchmark.benchmark_safe_move)
-        #self.clients.append(client_new)
-        # ----------------------
 
         self.run_year()
 
@@ -48,7 +44,7 @@ class Runner:
         rfq_list = []
 
         for i in range(20):
-            rfq_list.append(generator.get_new_rfq())
+            rfq_list.append(RfqService.generate_rfq())
 
         for rfq in rfq_list:
             print(rfq.get_sym(), rfq.get_qty())
