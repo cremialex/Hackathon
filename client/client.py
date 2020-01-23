@@ -36,6 +36,6 @@ class Client:
         pnl_event = PnlEvent(CalendarService.get_current_time(), trade_pnl, self._name, 'No reason')
         LoggerService.log(pnl_event)
         self._pnl = self._pnl + trade_pnl
-        if not self._is_bankrupt and self._pnl < -1_000_000:
+        if not self._is_bankrupt and self._pnl < -200_000:
             self._is_bankrupt = True
             print(self._name + ' is now BANKRUPT')

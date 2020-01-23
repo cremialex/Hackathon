@@ -47,7 +47,7 @@ class Runner:
         print(CalendarService.get_current_time())
         rfq_list = []
 
-        for i in range(5):
+        for i in range(20):
             rfq_list.append(generator.get_new_rfq())
 
         for rfq in rfq_list:
