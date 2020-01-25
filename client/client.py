@@ -15,7 +15,8 @@ class Client:
     def answer_rfq(self, incoming_rfq):
         if self._is_bankrupt:
             return None
-        return self._function_rfq(incoming_rfq)
+        price = self._function_rfq(incoming_rfq)
+        return round(price, 4)
 
     def add_to_portfolio(self, position):
         self._portfolio.add_position(position)
