@@ -1,6 +1,6 @@
 # Hackathon
 
-"configurations": [
+<! -- "configurations": [
     {
         "name": "Python: Main",
         "type": "python",
@@ -17,4 +17,8 @@
         "program": "${workspaceFolder}/gui/dash_gui.py",
         "console": "integratedTerminal"
     }
-]
+] 
+
+python3 -m pip install pandas dash
+
+-->
