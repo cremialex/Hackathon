@@ -32,8 +32,7 @@ class DalService:
 
         def get_earnings_prev(self, ticker):
             all_dates = self.df_earnings.loc[ticker, self.dates_col]
-            current_date = CalendarService.get_current_time()
-            position = all_dates.searchsorted(current_date)
+            position = all_dates.searchsorted(CalendarService.get_current_time())
             if(position == 0):
                 earnings = { 'estimated' :  None,
                             'actual' : None
@@ -46,8 +45,7 @@ class DalService:
 
         def get_earnings_next(self, ticker):
             all_dates = self.df_earnings.loc[ticker, self.dates_col]
-            current_date = CalendarService.get_current_time()
-            position = all_dates.searchsorted(current_date)
+            position = all_dates.searchsorted(CalendarService.get_current_time())
             if(position > len(all_dates) - 1):
                 earnings = { 'estimated' :  None,
                             'actual' : None
@@ -59,9 +57,7 @@ class DalService:
             return earnings
 
         def get_earnings_all(self,ticker):
-            temp = self.df_earnings.loc[ticker]
             return self.df[ticker]
-
         
 
     instance = None
