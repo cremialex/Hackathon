@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 from runner.calendar import CalendarService
 
@@ -8,6 +9,10 @@ class DalService:
         def __init__(self):
             self.df = pd.read_csv('data/data_new_list_wikipedia.csv', header=[0, 1], index_col=0, dayfirst=True,
                                   parse_dates=True).dropna(axis=1)
+
+            self.dates_col = ['Q1 2017 date', 'Q2 2017 date', 'Q3 2017 date', 'Q4 2017 date', 'Q1 2018 date', 'Q2 2018 date', 'Q3 2018 date', 'Q4 2018 date']
+            self.df_earnings = pd.read_csv('data/earnings_yahoo.csv', parse_dates=self.dates_col).set_index('Stock')
+
 
         def get_company_list(self):
             companies = self.df.columns.get_level_values(0).to_list()
@@ -24,6 +29,40 @@ class DalService:
 
         def get_price_stock(self, sym, date):
             return self.get_prices(sym).loc[date.strftime('%Y%m%d')].values[0]
+
+        def get_earnings_prev(self, ticker):
+            all_dates = self.df_earnings.loc[ticker, self.dates_col]
+            current_date = CalendarService.get_current_time()
+            position = all_dates.searchsorted(current_date)
+            if(position == 0):
+                earnings = { 'estimated' :  None,
+                            'actual' : None
+                            }
+            else:
+                earnings = { 'estimated' : self.df_earnings.iloc[self.df_earnings.index.get_loc(ticker), (position * 3) - 2],
+                            'actual' : self.df_earnings.iloc[self.df_earnings.index.get_loc(ticker), (position *  3) - 1]
+                            }
+            return earnings
+
+        def get_earnings_next(self, ticker):
+            all_dates = self.df_earnings.loc[ticker, self.dates_col]
+            current_date = CalendarService.get_current_time()
+            position = all_dates.searchsorted(current_date)
+            if(position > len(all_dates) - 1):
+                earnings = { 'estimated' :  None,
+                            'actual' : None
+                            }
+            else:
+                earnings = { 'estimated': self.df_earnings.iat[self.df_earnings.index.get_loc(ticker), 1 + (position * 3)],
+                            'actual': self.df_earnings.iat[self.df_earnings.index.get_loc(ticker), 2 + (position * 3)]
+                            }
+            return earnings
+
+        def get_earnings_all(self,ticker):
+            temp = self.df_earnings.loc[ticker]
+            return self.df[ticker]
+
+        
 
     instance = None
 
@@ -71,3 +110,15 @@ class DalService:
     @staticmethod
     def get_moving_average(data, days):
         return data.rolling(days).mean()
+
+    @staticmethod
+    def get_earnings_all(ticker):
+        return DalService.instance.get_earnings_all(ticker)
+
+    @staticmethod
+    def get_earnings_next(ticker):
+        return DalService.instance.get_earnings_next(ticker)
+
+    @staticmethod
+    def get_earnings_prev(ticker):
+        return DalService.instance.get_earnings_prev(ticker)
