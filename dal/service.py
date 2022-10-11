@@ -32,13 +32,15 @@ class DalService:
 
         def get_earnings_prev(self, ticker):
             earnings = { 'estimated' :  None,
-                            'actual' : None }
+                            'actual' : None,
+                            'date': None}
             try:
                 all_dates = self.df_earnings.loc[ticker, self.dates_col]
                 position = all_dates.searchsorted(CalendarService.get_current_time())
                 if(position != 0):
                     earnings = { 'estimated' : self.df_earnings.iloc[self.df_earnings.index.get_loc(ticker), (position * 3) - 2],
-                                'actual' : self.df_earnings.iloc[self.df_earnings.index.get_loc(ticker), (position *  3) - 1]
+                                'actual' : self.df_earnings.iloc[self.df_earnings.index.get_loc(ticker), (position *  3) - 1],
+                                'date' : all_dates[position-1]
                                 }
             except KeyError:
                 return earnings
@@ -47,13 +49,15 @@ class DalService:
 
         def get_earnings_next(self, ticker):
             earnings = { 'estimated' :  None,
-                        'actual' : None }
+                        'actual' : None,
+                        'date': None }
             try:
                 all_dates = self.df_earnings.loc[ticker, self.dates_col]
                 position = all_dates.searchsorted(CalendarService.get_current_time())
                 if(position <= len(all_dates) - 1):
                     earnings = { 'estimated': self.df_earnings.iat[self.df_earnings.index.get_loc(ticker), 1 + (position * 3)],
-                                'actual': self.df_earnings.iat[self.df_earnings.index.get_loc(ticker), 2 + (position * 3)]
+                                'actual': self.df_earnings.iat[self.df_earnings.index.get_loc(ticker), 2 + (position * 3)],
+                                'date': all_dates[position]
                                 }
             except KeyError:
                 return earnings
